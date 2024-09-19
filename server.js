@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const lesson1Controller = require("./controllers/lesson1");
 
 app.use("/", require('./routes/index'))
 
