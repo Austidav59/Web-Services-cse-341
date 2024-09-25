@@ -26,9 +26,9 @@ async function listairbnb(client) {
         const sample_airbnbList = await client
             .db("sample_airbnb")
             .collection("listingsAndReviews")
-            // .find({})
-            // .limit(10)
-            // .toArray();
+            .find({})
+            .limit(10)
+            .toArray();
         
         // Output the retrieved documents
         console.log(sample_airbnbList);
