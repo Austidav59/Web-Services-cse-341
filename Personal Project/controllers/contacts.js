@@ -1,7 +1,8 @@
+const Connectdb = require("../modules/connect")
 const contacts = async (req, res) => {
     try {
         // Simulating an async database fetch (you'd replace this with your actual async DB call)
-        let data = await database.contacts;
+        let data = await Connectdb.contacts;
         res.send(data);
     } catch (error) {
         // Handle errors appropriately

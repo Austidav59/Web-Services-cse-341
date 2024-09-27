@@ -13,7 +13,7 @@ async function contacts(client) {
             .db("contactsdb")
             .collection("contactscluster")
             .find({})
-            .limit(10)  // Limiting to 10 documents
+            .limit(1)  // Limiting to 10 documents
             .toArray();
         
         // Output the retrieved documents
