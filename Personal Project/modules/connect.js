@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 
 async function main() {
-    const uri = "mongodb+srv://austin:demo123@cluster0.mhj8e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    const uri = "mongodb+srv://austin:demo123@contacts.45vcq.mongodb.net/?retryWrites=true&w=majority&appName=Contacts";
 
     const client = new MongoClient(uri);
 
@@ -10,7 +10,7 @@ async function main() {
         await client.connect();
 
         // Call the listairbnb function and pass the connected client
-        await listairbnb(client);
+        await contacts(client);
 
     } catch (e) {
         console.error("Error:", e);
@@ -21,17 +21,18 @@ async function main() {
 }
 
 // Function to list the first 10 Airbnb listings from the sample_airbnb collection
-async function listairbnb(client) {
+async function contacts(client) {
     try {
-        const sample_airbnbList = await client
-            .db("sample_airbnb")
-            .collection("listingsAndReviews")
+        const listOfContacts = await client
+            .db("contactsdb")
+            .collection("contactscluster")
             .find({})
-            .limit(10)
+            .limit(0)
             .toArray();
         
         // Output the retrieved documents
-        console.log(sample_airbnbList);
+        console.log(listOfContacts);
+        console.log("__________________________________________________")
     } catch (e) {
         console.error("Error fetching Airbnb listings:", e);
     }
