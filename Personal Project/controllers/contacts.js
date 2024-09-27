@@ -1,29 +1,35 @@
-const Connectdb = require("../modules/connect")
-const contacts = async (req, res) => {
+const Connectdb = require("../modules/connect");
+
+const getAllContacts = async (req, res) => {
     try {
-        // Simulating an async database fetch (you'd replace this with your actual async DB call)
-        let data = await Connectdb.contacts;
-        res.send(data);
+        const contacts = await Connectdb.contacts();
+        res.json(contacts);
     } catch (error) {
-        // Handle errors appropriately
-        res.status(500).send("Error fetching contacts");
+        console.error("Error fetching all contacts:", error);
+        res.status(500).json({ error: "Error fetching contacts" });
     }
 };
 
-const single = async (req, res) => {
+const getSingleContact = async (req, res) => {
     try {
-        // Simulating an async database fetch
-        let data = await database.contacts;
-        res.send(data);
+        const id = req.params.id;
+        if (!id) {
+            return res.status(400).json({ error: "ID parameter is required" });
+        }
+
+        const contact = await Connectdb.singleContact(id);
+        res.json(contact);
     } catch (error) {
-        // Handle errors appropriately
-        res.status(500).send("Error fetching contact");
+        console.error("Error in getSingleContact:", error);
+        if (error.message === 'Invalid contact ID' || error.message === 'Contact not found') {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: "Error fetching contact" });
+        }
     }
 };
-
 
 module.exports = {
-
-    contacts,
-    single
-}
+    getAllContacts,
+    getSingleContact
+};

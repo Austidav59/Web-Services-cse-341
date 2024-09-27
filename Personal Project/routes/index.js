@@ -6,8 +6,8 @@ const controllerContacts = require("../controllers/contacts")
 // ROUTES FOR APP
 routes.get("/", lesson1Controller.friends);
 routes.get("/mom", lesson1Controller.oldFriends);
-routes.get("/contacts", controllerContacts.contacts);
-routes.get("/contacts", controllerContacts.single);
+routes.get("/contacts", controllerContacts.getAllContacts);
+routes.get("/contacts/:id", controllerContacts.getSingleContact);
 
 
 
