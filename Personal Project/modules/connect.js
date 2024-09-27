@@ -1,45 +1,38 @@
-const { MongoClient } = require("mongodb");
+// Load environment variables from .env
+require('dotenv').config();
 
-async function main() {
-    const uri = "mongodb+srv://austin:demo123@contacts.45vcq.mongodb.net/?retryWrites=true&w=majority&appName=Contacts";
+const { MongoClient } = require('mongodb');
+// Use the MongoDB URI from .env
+const client = new MongoClient(process.env.uri);
+// Function to list contacts from the contactscluster collection
 
-    const client = new MongoClient(uri);
-
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
-
-        // Call the listairbnb function and pass the connected client
-        await contacts(client);
-
-    } catch (e) {
-        console.error("Error:", e);
-    } finally {
-        // Ensure the client is closed properly after the operation
-        await client.close();
-    }
-}
-
-// Function to list the first 10 Airbnb listings from the sample_airbnb collection
+// grab all thres contacts
 async function contacts(client) {
     try {
         const listOfContacts = await client
             .db("contactsdb")
             .collection("contactscluster")
             .find({})
-            .limit(0)
+            .limit(10)  // Limiting to 10 documents
             .toArray();
         
         // Output the retrieved documents
         console.dir(listOfContacts, { depth: null, colors: true });
+        console.log("__________________________________________________");
 
-
-
-        console.log("__________________________________________________")
     } catch (e) {
-        console.error("Error fetching Airbnb listings:", e);
+        console.error("Error fetching contacts:", e);  // More specific error message
     }
 }
 
+//grab a single contact based on id
+async function singleContact(client) {
+
+}
+
+
 // Run the main function
-main().catch(console.error);
+module.exports = {
+    contacts,
+    singleContact
+}
