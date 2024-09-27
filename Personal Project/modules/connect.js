@@ -31,7 +31,10 @@ async function contacts(client) {
             .toArray();
         
         // Output the retrieved documents
-        console.log(listOfContacts);
+        console.dir(listOfContacts, { depth: null, colors: true });
+
+
+
         console.log("__________________________________________________")
     } catch (e) {
         console.error("Error fetching Airbnb listings:", e);
