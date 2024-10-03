@@ -22,3 +22,26 @@ GET https://cse341-instructor.herokuapp.com/contacts/622023f642f9ab4cd6e060b2
 Send Request
 GET https://cse341-instructor.herokuapp.com/contacts/622023f642f9ab4cd6e060b3
 ###
+### Create contact
+Send Request
+POST http://localhost:8080/contacts HTTP/1.1
+content-type: application/json
+{
+    "first_name":"Ashley",
+    "last_name":"Weaver",
+    "email":"aWeaver@test.com",
+    "favoriteColor":"Brown",
+    "birthday":"06/19/2000"
+}
+머 You, 3 hours ago added post, put delete requests. added prettier a....
+### PUT contact
+Send Request
+PUT http://localhost:8080/contacts/6220bcb39cd507e920c75a0b HTTP/1.1
+content-type: application/json
+{
+    "first_name":"Sarah",
+    "last_name":"Birch",
+    "email":"test@gmail.com",
+    "Birthday": "12/12/20",
+    "color":"Green"
+}

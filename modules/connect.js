@@ -25,7 +25,7 @@ async function contacts() {
             .find({})
             .toArray();
         
-        console.log("Retrieved contacts:", listOfContacts);
+        // console.log("Retrieved contacts:", listOfContacts);
         return listOfContacts;
     } catch (e) {
         console.error("Error fetching contacts:", e);
@@ -63,6 +63,25 @@ async function singleContact(id) {
     }
 }
 
+async function addContact(newContact) {
+    try {
+        if (!client.topology || !client.topology.isConnected()) {
+            await connectToMongoDB();
+        }
+
+        const result = await client
+            .db("contactsdb")
+            .collection("contactscluster")
+            .insertOne(newContact);
+
+        console.log("Added new contact:", result.insertedId);
+        return { _id: result.insertedId, ...newContact }; // Return the added contact with its new ID
+    } catch (e) {
+        console.error("Error adding contact:", e);
+        throw e;
+    }
+}
+
 async function closeConnection() {
     try {
         await client.close();
@@ -76,5 +95,6 @@ module.exports = {
     connectToMongoDB,
     contacts,
     singleContact,
-    closeConnection
+    closeConnection,
+    addContact
 };

@@ -8,6 +8,7 @@ routes.get("/", lesson1Controller.friends);
 routes.get("/mom", lesson1Controller.oldFriends);
 routes.get("/contacts", controllerContacts.getAllContacts);
 routes.get("/contacts/:id", controllerContacts.getSingleContact);
+routes.post("/addcontact", controllerContacts.addContact);
 
 
 

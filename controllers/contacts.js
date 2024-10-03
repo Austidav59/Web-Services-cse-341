@@ -29,7 +29,28 @@ const getSingleContact = async (req, res) => {
     }
 };
 
+const addContact = async (req, res) => {
+    try {
+        const { name, email, phone } = req.body; // Assuming these fields are necessary
+
+        // Simple validation
+        if (!name || !email || !phone) {
+            return res.status(400).json({ error: "Name, email, and phone are required." });
+        }
+
+        // Add the contact to the database
+        const newContact = await Connectdb.addContact({ name, email, phone });
+
+        // Respond with the newly created contact
+        res.status(201).json(newContact);
+    } catch (error) {
+        console.error("Error adding contact:", error);
+        res.status(500).json({ error: "Error adding contact" });
+    }
+};
+
 module.exports = {
     getAllContacts,
-    getSingleContact
+    getSingleContact,
+    addContact
 };
