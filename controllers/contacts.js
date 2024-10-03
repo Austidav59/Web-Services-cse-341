@@ -31,15 +31,15 @@ const getSingleContact = async (req, res) => {
 
 const addContact = async (req, res) => {
     try {
-        const { name, email, phone } = req.body; // Assuming these fields are necessary
+        const { first_name, last_name, email, birthday, color} = req.body; // Assuming these fields are necessary
 
         // Simple validation
-        if (!name || !email || !phone) {
-            return res.status(400).json({ error: "Name, email, and phone are required." });
+        if (!first_name || !last_name || !email || !birthday || !color) {
+            return res.status(400).json({ error: "Name, email, are required." });
         }
 
         // Add the contact to the database
-        const newContact = await Connectdb.addContact({ name, email, phone });
+        const newContact = await Connectdb.addContact({ first_name, last_name, email, birthday, color});
 
         // Respond with the newly created contact
         res.status(201).json(newContact);

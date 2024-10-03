@@ -69,6 +69,19 @@ async function addContact(newContact) {
             await connectToMongoDB();
         }
 
+        // Validation for required fields
+        const { first_name, last_name, email, Birthday, color } = newContact;
+        if (!first_name || !last_name || !email) {
+            throw new Error("First name, last name, and email are required.");
+        }
+
+        // Example email validation (you can expand this with regex if needed)
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            throw new Error("Invalid email format.");
+        }
+
+        // Add the contact to the database
         const result = await client
             .db("contactsdb")
             .collection("contactscluster")
