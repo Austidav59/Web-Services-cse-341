@@ -39,7 +39,7 @@ Send Request
 PUT http://localhost:8080/contacts/6220bcb39cd507e920c75a0b HTTP/1.1
 content-type: application/json
 {
-    "first_name":"Sarah",
+    "first_name":"update first name",
     "last_name":"Birch",
     "email":"test@gmail.com",
     "Birthday": "12/12/20",

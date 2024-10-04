@@ -9,6 +9,7 @@ routes.get("/contacts", controllerContacts.getAllContacts);
 routes.get("/contacts/:id", controllerContacts.getSingleContact);
 routes.post("/addcontact", controllerContacts.addContact); // Use POST for adding a contact
 routes.put("/contacts/:id", controllerContacts.updateContact);
+routes.delete("/contacts/:id", controllerContacts.deleteContact);
 
 
 module.exports = routes;

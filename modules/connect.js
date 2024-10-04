@@ -92,35 +92,40 @@ async function updateContact(id, updatedContact) {
             await connectToMongoDB();
         }
 
-        // Validate the ObjectId format
         if (!ObjectId.isValid(id)) {
-            console.error("Invalid ObjectId format for ID:", id); // Log invalid ID
+            console.log("Invalid ObjectId format for ID:", id);
             throw new Error("Invalid ID format");
         }
 
-        // Update the contact based on the provided ID
+        const { first_name, last_name, email, birthday, color } = updatedContact;
+
         const result = await client
             .db("contactsdb")
             .collection("contactscluster")
-            .findOneAndUpdate(
-                { _id: new ObjectId(id) }, // Filter by ObjectId
-                { $set: updatedContact },   // Update contact fields
-                { returnDocument: 'after' } // Return the updated document
+            .updateOne(
+                { _id: new ObjectId(id) },
+                { 
+                    $set: {
+                        first_name,
+                        last_name,
+                        email,
+                        birthday,
+                        color
+                    }
+                }
             );
 
-        // Check if the update was successful
-        if (!result.value) {
-            console.error("Contact not found or update failed for ID:", id);
-            return null; // Return null if no contact was updated
+        if (result.modifiedCount === 0) {
+            return null;
         }
 
-        console.log("Update result:", result.value); // Log the result for debugging
-        return result.value; // Return the updated document
+        return { _id: id, ...updatedContact };
     } catch (e) {
         console.error("Error updating contact:", e);
-        throw e; // Throw the error to the caller
+        throw e;
     }
-}
+};
+
 
 
 
@@ -133,11 +138,40 @@ async function closeConnection() {
     }
 }
 
+async function deleteContact(id) {
+    try {
+        if (!client.topology || !client.topology.isConnected()) {
+            await connectToMongoDB();
+        }
+
+        console.log("Attempting to delete contact in database with ID:", id);
+
+        if (!ObjectId.isValid(id)) {
+            console.log("Invalid ObjectId format in database operation:", id);
+            throw new Error("Invalid ID format");
+        }
+
+        const result = await client
+            .db("contactsdb")
+            .collection("contactscluster")
+            .deleteOne({ _id: new ObjectId(id) });
+
+        console.log("Database delete operation result:", result);
+
+        return result;
+    } catch (error) {
+        console.error("Error in database deleteContact operation:", error);
+        throw error;
+    }
+}
+
+
 module.exports = {
     connectToMongoDB,
     contacts,
     singleContact,
     closeConnection,
     addContact,
-    updateContact
+    updateContact,
+    deleteContact
 };
