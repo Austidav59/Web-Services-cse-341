@@ -1,4 +1,3 @@
-const swaggerAutogen = require('swagger-autogen')();
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -10,8 +9,14 @@ const options = {
       version: '1.0.0',
       description: 'Your API Description',
     },
+    servers: [
+      {
+        url: 'http://localhost:8080',
+        description: 'Development server',
+      },
+    ],
   },
-  apis: ['./routes/index'], // path to your API routes
+  apis: ['./routes/*.js'], // Path to the API docs
 };
 
 const specs = swaggerJsdoc(options);
